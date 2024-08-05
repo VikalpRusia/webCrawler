@@ -1,12 +1,19 @@
+import contextlib
 import logging
 
 from api import router as api_router
 from fastapi import FastAPI
+from fastapi.middleware import Middleware
+from middlewares.time_taken_middleware import TimeTakenMiddleware
+from middlewares.uuid_middleware import UUIDMiddleware
+from setup import setup_logger
 
-# set the logging level
-logging.basicConfig(level=logging.DEBUG)
+setup_logger()
 
-app = FastAPI(docs_url="/")
+# setup_logger()
+middlewares = [Middleware(UUIDMiddleware), Middleware(TimeTakenMiddleware), ]
+
+app = FastAPI(docs_url="/", middleware=middlewares)
 app.include_router(api_router)
 
 
