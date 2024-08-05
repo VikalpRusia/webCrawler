@@ -1,3 +1,4 @@
+"""Sets up the logger"""
 import logging
 
 from filters.health_check_filter import HealthCheckFilter

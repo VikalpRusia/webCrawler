@@ -1,3 +1,4 @@
+"""Holds the crawl controller class"""
 import logging
 import re
 from urllib.parse import urljoin, urlparse
@@ -8,7 +9,10 @@ logger = logging.getLogger(__name__)
 
 
 class CrawlController:
+    """Holds the business logic for crawling websites"""
+
     async def crawl(self, url: str):
+        """Crawls a website"""
         domain = urlparse(url).netloc
         visited = set()
         sitemap = {}
@@ -19,7 +23,9 @@ class CrawlController:
     async def crawl_page(
         self, url: str, visited: set, domain: str, sitemap: dict, errors: dict
     ):
+        """Recursively calling website using DFS in graph"""
         if url in visited or domain not in urlparse(url).netloc:
+            # if page is already visited return
             return
         logger.debug(f"Crawling {url}")
         visited.add(url)
@@ -44,6 +50,12 @@ class CrawlController:
             errors[url] = f"Failed with exception {str(e)}"
 
     def extract_links(self, html, base_url):
+        """
+        Extracts links from HTML
+        :param html:
+        :param base_url:
+        :return:
+        """
         # Regex to find all href attributes in the HTML
         links = re.findall(r'href=["\'](.*?)["\']', html)
         # Remove fragment identifiers
