@@ -5,6 +5,8 @@ from urllib.parse import urljoin, urlparse
 
 import aiohttp
 
+from constants import EXTENSIONS_TO_FILTER
+
 logger = logging.getLogger(__name__)
 
 
@@ -33,6 +35,7 @@ class CrawlController:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as response:
                     if response.status != 200:
+                        # broken link saving error for partial result
                         logger.error(f"Failed to crawl {url}: status {response.status}")
                         errors[url] = f"Failed with status code {response.status}"
                         return
@@ -40,6 +43,8 @@ class CrawlController:
                     html = await response.text()
                     links = self.extract_links(html, url)
                     for full_url in links:
+                        # check domain is a subset or original one
+                        # if exact match is needed can be replaced with ==
                         if domain in urlparse(full_url).netloc:
                             sitemap[url].append(full_url)
                             await self.crawl_page(
@@ -58,7 +63,7 @@ class CrawlController:
         """
         # Regex to find all href attributes in the HTML
         links = re.findall(r'href=["\'](.*?)["\']', html)
-        # Remove fragment identifiers
+        # Remove fragment identifiers and query params
         cleaned_urls = [
             urlparse(url)
             ._replace(
@@ -71,7 +76,9 @@ class CrawlController:
         # Resolve relative URLs to absolute URLs
         full_urls = []
         for link in cleaned_urls:
+            # generate absolute urls
             cleaned_complete_link = urljoin(base_url, link)
-            if not cleaned_complete_link.endswith((".png", ".css", ".ico")):
+            # remove links to images,css etc.
+            if not cleaned_complete_link.endswith(EXTENSIONS_TO_FILTER):
                 full_urls.append(cleaned_complete_link)
         return full_urls
