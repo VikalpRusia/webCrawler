@@ -1,6 +1,6 @@
 import logging
 import re
-from urllib.parse import urlparse, urljoin
+from urllib.parse import urljoin, urlparse
 
 import aiohttp
 
