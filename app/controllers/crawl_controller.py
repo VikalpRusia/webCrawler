@@ -5,7 +5,7 @@ from urllib.parse import urljoin, urlparse
 
 import aiohttp
 
-from constants import EXTENSIONS_TO_FILTER
+from config.constants import EXTENSIONS_TO_FILTER
 
 logger = logging.getLogger(__name__)
 

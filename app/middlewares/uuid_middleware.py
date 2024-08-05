@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from fastapi import Request
 
-from constants import OP_ID, OP_PATH
+from config.constants import OP_ID, OP_PATH
 
 _mapping = {
     OP_ID: ContextVar(OP_ID, default="???"),

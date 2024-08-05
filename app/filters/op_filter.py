@@ -1,7 +1,7 @@
 """Custom logger"""
 import logging
 
-from constants import OP_ID, OP_PATH
+from config.constants import OP_ID, OP_PATH
 from middlewares.uuid_middleware import get_key
 
 

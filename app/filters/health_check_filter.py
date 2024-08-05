@@ -1,7 +1,7 @@
 """Custom logger"""
 import logging
 
-from constants import OP_PATH
+from config.constants import OP_PATH
 
 
 class HealthCheckFilter(logging.Filter):
