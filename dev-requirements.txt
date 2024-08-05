@@ -1,0 +1,9 @@
+# for development
+
+# required
+-r requirements.txt
+
+# dev
+pylint
+black
+isort
