@@ -1,0 +1,28 @@
+services:
+  web-crawler:
+    # nimbus-qms api service
+    depends_on:
+      - redis
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: web-crawler
+    container_name: web-crawler
+    ports:
+      - "8000:80"
+    environment:
+      REDIS_SERVER: redis
+      REDIS_CONN_TYPE: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 2
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_persistent_volume:/data
+
+volumes:
+  redis_persistent_volume:
