@@ -71,14 +71,15 @@ in the crawl.
 Example - `python crawler_client.py http://localhost:8001/test`
 
 ## Testing
+
 1. Install dev-requirements
-  ```shell
-pip install -r dev-requirements.txt
-```
+   ```shell
+   pip install -r dev-requirements.txt
+   ```
 2. Trigger Test cases
-  ```shell
-python3 -m pytest tests
-```
+   ```shell
+   python3 -m pytest tests
+   ```
 
 ## Project Structure
 
@@ -134,6 +135,6 @@ Swagger documentation is available at http://localhost:8000/.
 
 The project uses Docker and Docker Compose to manage the containers for the FastAPI server and Redis.
 
-- `docker-compose up -d --build`: Build and start the containers in background.
-- `docker-compose down`: Stop and remove the containers.
+- `docker compose up -d --build`: Build and start the containers in background.
+- `docker compose down`: Stop and remove the containers.
 
