@@ -1,4 +1,5 @@
 """Crawl request schema"""
+
 from pydantic import BaseModel, Field
 
 

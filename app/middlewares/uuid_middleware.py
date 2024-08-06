@@ -1,4 +1,5 @@
 """Middleware module"""
+
 from contextvars import ContextVar
 from uuid import uuid4
 

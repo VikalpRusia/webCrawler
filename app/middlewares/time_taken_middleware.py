@@ -1,4 +1,5 @@
 """Time taken middleware"""
+
 import logging
 import time
 

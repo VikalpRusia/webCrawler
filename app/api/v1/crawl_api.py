@@ -1,4 +1,5 @@
 """Holds Crawler api class"""
+
 from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 from fastapi_restful.cbv import cbv

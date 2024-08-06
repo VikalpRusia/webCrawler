@@ -1,4 +1,5 @@
 """Custom logger"""
+
 import logging
 
 from config.constants import OP_PATH

@@ -1,4 +1,5 @@
 """Holds the crawl controller class"""
+
 import logging
 import re
 import traceback

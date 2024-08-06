@@ -1,6 +1,7 @@
 """
 Module to manage Redis cache and provide an abstraction to its core functionalities.
 """
+
 import logging
 from typing import List, Set, Union
 

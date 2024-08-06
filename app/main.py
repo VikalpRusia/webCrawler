@@ -1,4 +1,5 @@
 """Main module starts the server"""
+
 from fastapi import FastAPI
 from fastapi.middleware import Middleware
 

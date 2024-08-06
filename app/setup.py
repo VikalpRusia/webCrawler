@@ -1,4 +1,5 @@
 """Sets up the logger"""
+
 import contextlib
 import logging
 
