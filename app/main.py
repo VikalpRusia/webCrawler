@@ -7,8 +7,6 @@ from middlewares.time_taken_middleware import TimeTakenMiddleware
 from middlewares.uuid_middleware import UUIDMiddleware
 from setup import lifespan
 
-
-# setup_logger()
 middlewares = [
     Middleware(UUIDMiddleware),
     Middleware(TimeTakenMiddleware),

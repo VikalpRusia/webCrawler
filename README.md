@@ -133,6 +133,7 @@ Example - `python crawler_client.py http://localhost:8001/test`
 - **GET /health**: Checks the health of the service.
 
 ### Documentation
+
 Swagger documentation is available at http://localhost:8000/.
 
 ## Docker and Docker Compose
@@ -143,4 +144,5 @@ The project uses Docker and Docker Compose to manage the containers for the Fast
 - `docker compose down`: Stop and remove the containers.
 
 ## System Architecture
+
 ![System Architecture](./SystemDesign.png)
