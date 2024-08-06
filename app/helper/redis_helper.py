@@ -133,7 +133,7 @@ class RedisHelper:
         :return: A list of values as strings. Returns an empty list if the key does not exist.
         """
         cached_list = await self.conn.lrange(key, 0, -1)
-        return [val for val in cached_list]
+        return list(cached_list)
 
     async def add_values_to_set(
         self, key: str, values: Union[str, List[str]], ttl: int | None = CACHE_EXPIRY
@@ -197,7 +197,8 @@ class RedisHelper:
         Retrieve all fields and values of the hash stored at the specified key.
 
         :param key: The Redis key.
-        :return: A dictionary with field-value pairs. Returns an empty dictionary if the key does not exist.
+        :return: A dictionary with field-value pairs.
+                 Returns an empty dictionary if the key does not exist.
         """
         cached_dict = await self.conn.hgetall(key)
         return dict(cached_dict)

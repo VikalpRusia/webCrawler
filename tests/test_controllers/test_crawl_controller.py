@@ -22,6 +22,10 @@ class TestCrawlController:
         cls.crawl_controller = CrawlController()
 
     def test_extract_links(self):
+        """
+        Tests link extraction logic
+        :return:
+        """
         current_dir = os.path.dirname(__file__)
         file_path = os.path.join(
             current_dir, "html", "external-and-internal-links.html"
@@ -46,6 +50,11 @@ class TestCrawlController:
 
     @pytest.mark.asyncio
     async def test_crawl(self, mocker: MockerFixture):
+        """
+        Tests the crawl logic
+        :param mocker:
+        :return:
+        """
         # connect redis client
         await RedisHelper().connect()
         current_dir = os.path.dirname(__file__)
@@ -90,3 +99,5 @@ class TestCrawlController:
             ],
             "https://foo.com/external-links-only": ["https://foo.com/"],
         }
+        # since home page is unreachable as status code is undefined
+        assert len(errors) == 1
