@@ -44,9 +44,7 @@ class CrawlController:
             sitemap[url] = await self.redis_helper.get_list_from_key(redis_key)
             for link in sitemap[url]:
                 # recursively scraping pages reachable from the sitemap
-                await self.crawl_page(
-                    link, visited, domain, sitemap, errors
-                )
+                await self.crawl_page(link, visited, domain, sitemap, errors)
             # no need to continue further as the page is already scraped
             return
         try:
@@ -69,7 +67,9 @@ class CrawlController:
                                 full_url, visited, domain, sitemap, errors
                             )
                     if sitemap[url]:
-                        await self.redis_helper.push_list_to_key(redis_key, sitemap[url])
+                        await self.redis_helper.push_list_to_key(
+                            redis_key, sitemap[url]
+                        )
         except Exception as e:
             logger.error(f"Failed to crawl {url}: {e}")
             logger.error(traceback.format_exc())

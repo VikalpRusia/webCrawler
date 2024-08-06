@@ -14,6 +14,7 @@ class RedisHelper:
     """
     Helper class to interact with Redis cache.
     """
+
     _instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -71,7 +72,9 @@ class RedisHelper:
         await self.conn.wait_closed()
         logger.info("Redis connection closed.")
 
-    async def push_list_to_key(self, key: str, values: List[str], ttl: int | None = CACHE_EXPIRY) -> None:
+    async def push_list_to_key(
+        self, key: str, values: List[str], ttl: int | None = CACHE_EXPIRY
+    ) -> None:
         """
         Store a list of values in a Redis list at the specified key and set TTL if provided.
 
@@ -85,7 +88,9 @@ class RedisHelper:
         await self.conn.rpush(key, *values)
         await self.set_key_expiry(key, ttl)
 
-    async def set_key_value(self, key: str, value: str, ttl: int | None = CACHE_EXPIRY) -> None:
+    async def set_key_value(
+        self, key: str, value: str, ttl: int | None = CACHE_EXPIRY
+    ) -> None:
         """
         Store a single value in Redis with the specified key and set TTL if provided.
 
@@ -128,7 +133,9 @@ class RedisHelper:
         cached_list = await self.conn.lrange(key, 0, -1)
         return [val for val in cached_list]
 
-    async def add_values_to_set(self, key: str, values: Union[str, List[str]], ttl: int | None = CACHE_EXPIRY) -> None:
+    async def add_values_to_set(
+        self, key: str, values: Union[str, List[str]], ttl: int | None = CACHE_EXPIRY
+    ) -> None:
         """
         Add one or more values to a Redis set at the specified key and set TTL if provided.
 
@@ -162,7 +169,9 @@ class RedisHelper:
         """
         return await self.conn.sismember(key, value)
 
-    async def set_hash(self, key: str, mapping: dict, ttl: int | None = CACHE_EXPIRY) -> None:
+    async def set_hash(
+        self, key: str, mapping: dict, ttl: int | None = CACHE_EXPIRY
+    ) -> None:
         """
         Store a dictionary in a Redis hash at the specified key and set TTL if provided.
 
@@ -173,7 +182,9 @@ class RedisHelper:
         if not isinstance(mapping, dict):
             logger.error("Mapping must be a dictionary.")
             return
-        if not all(isinstance(k, str) and isinstance(v, str) for k, v in mapping.items()):
+        if not all(
+            isinstance(k, str) and isinstance(v, str) for k, v in mapping.items()
+        ):
             logger.error("Both keys and values in the dictionary must be strings.")
             return
         await self.conn.hset(key, mapping)
