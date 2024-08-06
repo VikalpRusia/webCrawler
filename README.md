@@ -8,9 +8,11 @@ Docker and Docker Compose for containerized deployment.
 
 - [Project Overview](#project-overview)
 - [Features](#features)
+- [Assumptions](#assumptions)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Testing](#testing)
 - [Project Structure](#project-structure)
 - [API Endpoints](#api-endpoints)
 - [Docker and Docker Compose](#docker-and-docker-compose)
@@ -27,6 +29,14 @@ scraped data is cached in Redis to handle repeated requests efficiently.
 - Build and display a sitemap.
 - Cache scraped data in Redis for faster subsequent requests.
 - Containerized using Docker for easy deployment.
+- Code formatted with Black for consistency.
+- Linted with Pylint for code quality.
+- Tested with Pytest to ensure reliability.
+
+## Assumptions
+
+Only clickable links (href=) are considered in the crawler; assets (e.g., images, scripts, stylesheets) are not included
+in the crawl.
 
 ## Prerequisites
 
@@ -59,6 +69,16 @@ scraped data is cached in Redis to handle repeated requests efficiently.
    ```
 
 Example - `python crawler_client.py http://localhost:8001/test`
+
+## Testing
+1. Install dev-requirements
+  ```shell
+pip install -r dev-requirements.txt
+```
+2. Trigger Test cases
+  ```shell
+python3 -m pytest tests
+```
 
 ## Project Structure
 
@@ -97,7 +117,8 @@ Example - `python crawler_client.py http://localhost:8001/test`
 ├── crawler_client.py            # Client script to send crawl requests
 ├── dev-requirements.txt         # Development dependencies
 ├── docker-compose.yml           # Docker Compose configuration
-└── requirements.txt             # Python dependencies
+├── requirements.txt             # Python dependencies
+└── tests                        # holds test cases
 
 ```
 
