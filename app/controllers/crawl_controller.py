@@ -31,10 +31,17 @@ class CrawlController:
     async def crawl_page(
         self, url: str, visited: set, domain: str, sitemap: dict, errors: dict
     ):
-        """Recursively calling website using DFS in graph"""
+        """Recursively calling website using DFS in graph and using memoization technique"""
+        redis_key = f"sitemap:{url}"
         if url in visited or domain not in urlparse(url).netloc:
             # if page is already visited return
             return
+        if self.redis_helper.get_list_from_key(redis_key):
+            sitemap[url] = await self.redis_helper.get_list_from_key(redis_key)
+            for link in sitemap[url]:
+                await self.crawl_page(
+                    link, visited, domain, sitemap, errors
+                )
         logger.debug(f"Crawling {url}")
         visited.add(url)
         try:
@@ -56,6 +63,8 @@ class CrawlController:
                             await self.crawl_page(
                                 full_url, visited, domain, sitemap, errors
                             )
+                    if sitemap[url]:
+                        await self.redis_helper.push_list_to_key(redis_key, sitemap[url])
         except Exception as e:
             logger.error(f"Failed to crawl {url}: {e}")
             logger.error(traceback.format_exc())
