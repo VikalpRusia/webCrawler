@@ -1,4 +1,5 @@
 """Tests crawl"""
+
 import contextlib
 import os
 from unittest.mock import AsyncMock
@@ -22,7 +23,9 @@ class TestCrawlController:
 
     def test_extract_links(self):
         current_dir = os.path.dirname(__file__)
-        file_path = os.path.join(current_dir, "html", "file-1.html")
+        file_path = os.path.join(
+            current_dir, "html", "external-and-internal-links.html"
+        )
         with open(file_path, mode="r", encoding="utf-8") as file:
             test_str = file.read()
             links = self.crawl_controller.extract_links(test_str, ".")
@@ -30,7 +33,7 @@ class TestCrawlController:
                 "/",
                 "https://fonts.googleapis.com/css2",
                 "https://fonts.googleapis.com/icon",
-                "testing",
+                "external-links-only",
             ]
 
             links = self.crawl_controller.extract_links(test_str, "www.foo.bar.com/")
@@ -38,7 +41,7 @@ class TestCrawlController:
                 "/",
                 "https://fonts.googleapis.com/css2",
                 "https://fonts.googleapis.com/icon",
-                "www.foo.bar.com/testing",
+                "www.foo.bar.com/external-links-only",
             ]
 
     @pytest.mark.asyncio
@@ -46,7 +49,9 @@ class TestCrawlController:
         # connect redis client
         await RedisHelper().connect()
         current_dir = os.path.dirname(__file__)
-        file_path = os.path.join(current_dir, "html", "file-2.html")
+        file_path = os.path.join(
+            current_dir, "html", "external-and-internal-links.html"
+        )
 
         # Create mock responses for different URLs
         mock_response_1 = mocker.MagicMock()
@@ -54,7 +59,7 @@ class TestCrawlController:
         with open(file_path, mode="r", encoding="utf-8") as file:
             mock_response_1.text = AsyncMock(return_value=file.read())
 
-        file_path = os.path.join(current_dir, "html", "file-3.html")
+        file_path = os.path.join(current_dir, "html", "external-links-only.html")
         mock_response_2 = mocker.MagicMock()
         mock_response_2.status = 200
         with open(file_path, mode="r", encoding="utf-8") as file:
@@ -67,16 +72,21 @@ class TestCrawlController:
             :param url:
             :return:
             """
-            if url == "https://foo.com/test-1":
+            if url == "https://foo.com/external-and-internal-links":
                 yield mock_response_1
-            elif url == "https://foo.com/test-2":
+            elif url == "https://foo.com/external-links-only":
                 yield mock_response_2
             else:
                 yield mocker.MagicMock()  # Default mock
 
         mocker.patch("aiohttp.ClientSession.get", wraps=mock_get_side_effect)
-        sitemap, errors = await self.crawl_controller.crawl("https://foo.com/test-1")
+        sitemap, errors = await self.crawl_controller.crawl(
+            "https://foo.com/external-and-internal-links"
+        )
         assert sitemap == {
-            "https://foo.com/test-1": ["https://foo.com/", "https://foo.com/test-2"],
-            "https://foo.com/test-2": ["https://foo.com/"],
+            "https://foo.com/external-and-internal-links": [
+                "https://foo.com/",
+                "https://foo.com/external-links-only",
+            ],
+            "https://foo.com/external-links-only": ["https://foo.com/"],
         }
