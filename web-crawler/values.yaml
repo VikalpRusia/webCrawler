@@ -16,7 +16,7 @@ fullnameOverride: ""
 
 env:
   cacheExpiry: 3600
-  redisHost: redis
+  redisHost: redis-master.default.svc.cluster.local
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -70,11 +70,11 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 500m
+    memory: 1Gi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 200m
+    memory: 512Mi
 
 livenessProbe:
   httpGet:

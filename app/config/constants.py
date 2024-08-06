@@ -2,7 +2,7 @@
 OP_ID = "op_id"
 OP_PATH = "op_path"
 
-EXTENSIONS_TO_FILTER = (".png", ".css", ".xml", ".ico")
+EXTENSIONS_TO_FILTER = (".png", ".css", ".xml", ".ico", ".woff2", ".asp")
 
 # Redis config
 CACHE_EXPIRY = 3500

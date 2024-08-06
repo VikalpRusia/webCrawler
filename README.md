@@ -16,6 +16,7 @@ Docker and Docker Compose for containerized deployment.
 - [Project Structure](#project-structure)
 - [API Endpoints](#api-endpoints)
 - [Docker and Docker Compose](#docker-and-docker-compose)
+- [Helm Charts](#helm-charts)
 
 ## Project Overview
 
@@ -146,3 +147,18 @@ The project uses Docker and Docker Compose to manage the containers for the Fast
 ## System Architecture
 
 ![System Architecture](./SystemDesign.png)
+
+## Helm Charts
+
+### Prerequisite
+
+1. Install redis
+   ```shell
+   helm upgrade --install --timeout 600s --set auth.enabled=false --set architecture=standalone redis oci://registry-1.docker.io/bitnamicharts/redis
+   ```
+
+### For upgrading and installing
+
+```shell
+helm upgrade --install --timeout 1200s --debug --wait web-crawler ./web-crawler/
+```
