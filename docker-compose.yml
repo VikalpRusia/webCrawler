@@ -11,10 +11,8 @@ services:
     ports:
       - "8000:80"
     environment:
-      REDIS_SERVER: redis
-      REDIS_CONN_TYPE: redis
-      REDIS_PORT: 6379
-      REDIS_DB: 2
+      REDIS_HOST: redis
+      CACHE_EXPIRY: 3600
 
   redis:
     container_name: redis
