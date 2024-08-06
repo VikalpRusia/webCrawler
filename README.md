@@ -152,13 +152,19 @@ The project uses Docker and Docker Compose to manage the containers for the Fast
 
 ### Prerequisite
 
-1. Install redis
+1. Install rancher desktop
+2. Install redis
    ```shell
    helm upgrade --install --timeout 600s --set auth.enabled=false --set architecture=standalone redis oci://registry-1.docker.io/bitnamicharts/redis
    ```
 
 ### For upgrading and installing
 
-```shell
-helm upgrade --install --timeout 1200s --debug --wait web-crawler ./web-crawler/
-```
+1. Rebuild image
+   ```shell
+   docker --namespace k8s.io build --tag web-crawler:latest .
+   ```
+2. Refresh deployment
+   ```shell
+   helm upgrade --install --timeout 1200s --debug --wait web-crawler ./web-crawler/
+   ```
