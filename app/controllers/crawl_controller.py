@@ -36,14 +36,19 @@ class CrawlController:
         if url in visited or domain not in urlparse(url).netloc:
             # if page is already visited return
             return
-        if self.redis_helper.get_list_from_key(redis_key):
+        logger.debug(f"Crawling {url}")
+        visited.add(url)
+        if await self.redis_helper.get_list_from_key(redis_key):
+            logger.debug(f"Using cache for url: {url}")
+            # is page is already scraped in another request and is present in cache use it
             sitemap[url] = await self.redis_helper.get_list_from_key(redis_key)
             for link in sitemap[url]:
+                # recursively scraping pages reachable from the sitemap
                 await self.crawl_page(
                     link, visited, domain, sitemap, errors
                 )
-        logger.debug(f"Crawling {url}")
-        visited.add(url)
+            # no need to continue further as the page is already scraped
+            return
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as response:
