@@ -138,3 +138,5 @@ The project uses Docker and Docker Compose to manage the containers for the Fast
 - `docker compose up -d --build`: Build and start the containers in background.
 - `docker compose down`: Stop and remove the containers.
 
+## System Architecture
+![System Architecture](./SystemDesign.png)
