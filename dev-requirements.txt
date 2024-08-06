@@ -5,5 +5,8 @@
 
 # dev
 pylint
+pytest
+pytest-mock
+pytest-asyncio
 black
 isort
