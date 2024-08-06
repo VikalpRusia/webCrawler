@@ -76,7 +76,11 @@ Example - `python crawler_client.py http://localhost:8001/test`
    ```shell
    pip install -r dev-requirements.txt
    ```
-2. Trigger Test cases
+2. Start redis
+   ```shell
+   docker compose up -d redis
+   ```
+3. Trigger Test cases
    ```shell
    python3 -m pytest tests
    ```
