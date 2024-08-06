@@ -1,17 +1,23 @@
 """Holds the crawl controller class"""
 import logging
 import re
+import traceback
 from urllib.parse import urljoin, urlparse
 
 import aiohttp
 
 from config.constants import EXTENSIONS_TO_FILTER
+from helper.redis_helper import RedisHelper
 
 logger = logging.getLogger(__name__)
 
 
 class CrawlController:
     """Holds the business logic for crawling websites"""
+
+    def __init__(self):
+        self.redis_helper = RedisHelper()
+        logger.info(id(self.redis_helper))
 
     async def crawl(self, url: str):
         """Crawls a website"""
@@ -52,6 +58,7 @@ class CrawlController:
                             )
         except Exception as e:
             logger.error(f"Failed to crawl {url}: {e}")
+            logger.error(traceback.format_exc())
             errors[url] = f"Failed with exception {str(e)}"
 
     def extract_links(self, html, base_url):

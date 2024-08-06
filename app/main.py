@@ -5,9 +5,8 @@ from fastapi.middleware import Middleware
 from api import router as api_router
 from middlewares.time_taken_middleware import TimeTakenMiddleware
 from middlewares.uuid_middleware import UUIDMiddleware
-from setup import setup_logger
+from setup import lifespan
 
-setup_logger()
 
 # setup_logger()
 middlewares = [
@@ -15,7 +14,7 @@ middlewares = [
     Middleware(TimeTakenMiddleware),
 ]
 
-app = FastAPI(docs_url="/", middleware=middlewares)
+app = FastAPI(docs_url="/", middleware=middlewares, lifespan=lifespan)
 app.include_router(api_router)
 
 

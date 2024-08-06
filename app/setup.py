@@ -1,12 +1,23 @@
 """Sets up the logger"""
+import contextlib
 import logging
 
 from filters.health_check_filter import HealthCheckFilter
 from filters.op_filter import OpFilter
+from helper.redis_helper import RedisHelper
 
 logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger(__name__)
+
+
+@contextlib.asynccontextmanager
+async def lifespan(_app):
+    """lifespan event"""
+    setup_logger()
+    async with RedisHelper() as redis:
+        logger.info(id(redis))
+        yield
 
 
 def setup_logger():
